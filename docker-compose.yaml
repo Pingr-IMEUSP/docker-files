@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  broker:
+    image: nats-streaming:0.20-alpine
+    command: -cid broker
+    ports:
+      - 4222:4222
+
+  ping:
+    build: ../ping-service
+    ports:
+      - 3000:3000
+    env_file:
+      - ../ping-service/.env
+    volumes:
+      - ./node_modules
+      - ../ping-service/:/usr/src/app
+    depends_on:
+      - broker
+
+  mesa-principal:
+    build: ../mesa-principal-service
+    ports:
+      - 3001:3000
+    env_file:
+      - ../mesa-principal-service/.env
+    volumes:
+      - ./node_modules
+      - ../mesa-principal-service/:/usr/src/app
+    depends_on:
+      - broker
+
+volumes:
+  deps:
