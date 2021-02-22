@@ -31,5 +31,17 @@ services:
     depends_on:
       - broker
 
+  usuario:
+    build: ../usuario-service
+    ports:
+      - 3002:3000
+    env_file:
+      - ../usuario-service/.env
+    volumes:
+      - ./node_modules
+      - ../usuario-service/:/usr/src/app
+    depends_on:
+      - broker
+
 volumes:
   deps:
