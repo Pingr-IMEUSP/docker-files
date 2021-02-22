@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   broker:
@@ -40,6 +40,18 @@ services:
     volumes:
       - ./node_modules
       - ../usuario-service/:/usr/src/app
+    depends_on:
+      - broker
+
+  palavra-chave:
+    build: ../palavra-chave-service
+    ports:
+      - 3003:3000
+    env_file:
+      - ../palavra-chave-service/.env
+    volumes:
+      - ./node_modules
+      - ../palavra-chave-service/:/usr/src/app
     depends_on:
       - broker
 
